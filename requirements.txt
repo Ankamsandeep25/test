@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 Flask-SQLAlchemy
-=======
-Flask-SQLAlchemy
->>>>>>> app-logic
