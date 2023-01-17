@@ -11,6 +11,10 @@ db.init_app(app)
 db.app = app
 
 
+with app.app_context():
+
+    db.create_all()
+
 # the application's main/index page
 @app.route('/')
 def index():
