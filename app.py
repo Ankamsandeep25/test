@@ -3,7 +3,7 @@ from flask import Flask, request, render_template, redirect
 
 DATABASE = 'emp_db.db'
 app = Flask(__name__)
-#SQLALCHEMY_TRACK_MODIFICATIONS = False
+# SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_DATABASE_URI = 'sqlite:///'+DATABASE
 app.config.from_object(__name__)
 db = models.db
@@ -14,6 +14,7 @@ db.app = app
 with app.app_context():
 
     db.create_all()
+
 
 # the application's main/index page
 @app.route('/')
@@ -29,11 +30,11 @@ def add():
     if request.method == 'POST':
         form_data = request.form
         obj = models.Employee(name=form_data['name'],
-                                gender=form_data['gender'],
-                                address=form_data['address'],
-                                phone=form_data['phone'],
-                                salary=form_data['salary'],
-                                department=form_data['department'])
+                              gender=form_data['gender'],
+                              address=form_data['address'],
+                              phone=form_data['phone'],
+                              salary=form_data['salary'],
+                              department=form_data['department'])
 
         try:
             db.session.add(obj)
@@ -63,7 +64,7 @@ def delete():
                 return "There was an error"
         else:
             return render_template('index.html',
-                                    error='Sorry, the employee does not exist.')
+                                   error='Sorry, the employee does not exist.')
 
 
 # edit page; to edit the information of an employee
@@ -90,7 +91,7 @@ def edit(id):
             return render_template('edit.html', emp=obj)
     else:
         return render_template('edit.html',
-                            error='Sorry, the employee does not exist.')
+                               error='Sorry, the employee does not exist.')
 
 
 if __name__ == '__main__':
