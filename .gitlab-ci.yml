@@ -5,12 +5,12 @@ lint_test:
   image: python:3.8.0-slim
   stage: test
   before_script: 
-    - pip install flake8==3.8.4
-    - pip install flake8-html
+    - pip3 install flake8==4.0.1
+    - pip3 install flake8-html==0.4.1
   script:
-    - flake8 --format=html --htmldir=flake_reports/
+    - flake8 --format=html --htmldir=flake8_reports/
   artifacts:
     when: always
     paths:
-      - flake_reports/
+      - flake8_reports/
 
