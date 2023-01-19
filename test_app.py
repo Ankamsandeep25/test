@@ -5,9 +5,10 @@ from app import app, db
 
 @pytest.fixture
 def client():
-    initDB()
-    yield app.test_client()
-    truncateDB()
+    with app.app_context():
+        initDB()
+        yield app.test_client()
+        truncateDB()
 
 
 def initDB():
