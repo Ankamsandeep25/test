@@ -5,10 +5,11 @@ lint_test:
   image: python:3.8.0-slim
   stage: test
   before_script:
-    - pip3 install flake8==4.0.1
-    - pip3 install flake8-html==0.4.1 Jinja2==3.0
-    #- pip install flake8==3.8.4
-    #- pip install flake8-html
+    #- pip install --upgrade pip
+    #- pip3 install flake8==4.0.1
+    #- pip3 install flake8-html==0.4.1 Jinja2==3.0
+     - pip install flake8==3.8.4
+     - pip install flake8-html
   script:
     - flake8 --format=html --htmldir=flake8_reports/
   artifacts:
@@ -16,3 +17,16 @@ lint_test:
     paths:
       - flake8_reports/
 
+pytest:
+  image: python:3.8.0-slim
+  stage: test
+  before_script:
+    - pip3 install pytest-html
+    - pip3 install -r requirements.txt
+
+  script:
+    -  pytest --html=pytest_reports/pytest-report.html --self-contained-html
+  artifacts:
+    when: always
+    paths:
+      - pytest_reports/
