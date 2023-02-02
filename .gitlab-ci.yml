@@ -5,6 +5,15 @@ stages:
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
 
+
+mirror:
+  script:
+    - git push --mirror git@gitlab.com:<public-repo-name>.git
+  only:
+    - branches
+  except:
+    - master
+
 lint_test:
   image: python:3.8.0-slim
   stage: test
