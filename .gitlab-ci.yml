@@ -5,14 +5,18 @@ stages:
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
 
-
 mirror:
   script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - git push --mirror git@gitlab.com:ankamsandeep/mirror-test.git
   only:
     - branches
   except:
     - master
+  variables:
+    GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
 
 lint_test:
   image: python:3.8.0-slim
