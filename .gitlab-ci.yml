@@ -7,7 +7,7 @@ variables:
 
 mirror:
   script:
-    - git push --mirror https://ankamsandeep25@gmail.com:$GITLAB_PAT@gitlab.com/ankamsandeep/mirror-test.git
+    - git push --mirror https://ankamsandeep25@gmail.com:$GITLAB_PAT@gitlab.com/https://gitlab.com/ankamsandeep/mirror-test
   only:
     - branches
   except:
