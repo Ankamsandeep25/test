@@ -6,19 +6,13 @@ variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
 
 mirror:
-  before_script:
-    - chmod 400 $SSH_PRIVATE_KEY
   script:
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    - git push --mirror git@gitlab.com:ankamsandeep/mirror-test.git
+    - git push --mirror https://ankamsandeep25@gmail.com:$GITLAB_PAT@gitlab.com/ankamsandeep25@gmail.com/https://gitlab.com/ankamsandeep/mirror-test.git
   only:
     - branches
   except:
     - master
-  variables:
-    GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
+
 
 lint_test:
   image: python:3.8.0-slim
@@ -50,14 +44,14 @@ pytest:
     paths:
       - pytest_reports/
 
-build:
-    image: docker:latest
-    services:
-      - docker:dind
-    stage: build
-    before_script: 
-      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    script: 
-     - docker build -t $IMAGE_TAG .
-     - docker images
-     - docker push $IMAGE_TAG
+#build:
+#   image: docker:latest
+#    services:
+#      - docker:dind
+#    stage: build
+#    before_script: 
+#      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    script: 
+#     - docker build -t $IMAGE_TAG .
+#     - docker images
+#     - docker push $IMAGE_TAG
