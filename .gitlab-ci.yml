@@ -1,28 +1,21 @@
 stages:
   - test
   - build
+  - mirror
 
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
-
-mirror:
-  script:
-    - git push --mirror https://ankamsandeep25@gmail.com:$GITLAB_PAT@gitlab.com/https://gitlab.com/ankamsandeep/mirror-test
-  only:
-    - branches
-  except:
-    - master
-
 
 lint_test:
   image: python:3.8.0-slim
   stage: test
   before_script:
+    - echo "Image lint test"
     #- pip install --upgrade pip
     #- pip3 install flake8==4.0.1
     #- pip3 install flake8-html==0.4.1 Jinja2==3.0
-     - pip install flake8==3.8.4
-     - pip install flake8-html
+    # - pip install flake8==3.8.4
+    # - pip install flake8-html
   script:
     - flake8 --format=html --htmldir=flake8_reports/
   artifacts:
@@ -34,15 +27,30 @@ pytest:
   image: python:3.8.0-slim
   stage: test
   before_script:
-    - pip3 install pytest-html
-    - pip3 install -r requirements.txt
-
+  #  - pip3 install pytest-html
+  #  - pip3 install -r requirements.txt
+    - echo "Pytest started"
   script:
     -  pytest --html=pytest_reports/pytest-report.html --self-contained-html
   artifacts:
     when: always
     paths:
       - pytest_reports/
+
+mirror:
+  stage: mirror
+  #rules:
+  #  - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
+  script:
+    - echo "Mirroring procedure stated"
+    - git push --mirror ssh://git@gitlab.com/ankamsandeep/mirroring.git
+  only:
+    - branches
+  except:
+    - master
+
+
+
 
 #build:
 #   image: docker:latest
