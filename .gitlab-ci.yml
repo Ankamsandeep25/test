@@ -40,8 +40,8 @@ pytest:
 
 mirror:
   stage: mirror
-  #rules:
-  #  - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
   script:
     - echo "Mirroring procedure stated"
     - git push --mirror ssh://git@gitlab.com/ankamsandeep/mirroring.git
@@ -50,17 +50,14 @@ mirror:
   except:
     - master
 
-
-
-
-#build:
-#   image: docker:latest
-#    services:
-#      - docker:dind
-#    stage: build
-#    before_script: 
-#      - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#    script: 
-#     - docker build -t $IMAGE_TAG .
-#     - docker images
-#     - docker push $IMAGE_TAG
+build:
+ image: docker:latest
+ services:
+  - docker:dind
+stage: build
+before_script: 
+  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+script: 
+  - docker build -t $IMAGE_TAG .
+  - docker images
+  - docker push $IMAGE_TAG
