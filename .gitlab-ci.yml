@@ -1,8 +1,7 @@
 stages:
   - test
   - build
-  - mirror
-
+  
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
 
@@ -39,16 +38,16 @@ pytest:
       - pytest_reports/
 
 build:
- image: docker:latest
- services:
-  - docker:dind
-stage: build
-before_script: 
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-script: 
-  - docker build -t $IMAGE_TAG .
-  - docker images
-  - docker push $IMAGE_TAG
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: build
+  before_script: 
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script: 
+    - docker build -t $IMAGE_TAG .
+    - docker images
+    - docker push $IMAGE_TAG
 
 
 #mirror:
