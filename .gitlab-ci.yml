@@ -38,18 +38,6 @@ pytest:
     paths:
       - pytest_reports/
 
-mirror:
-  stage: mirror
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
-  script:
-    - echo "Mirroring procedure stated"
-    - git push --mirror ssh://git@gitlab.com/ankamsandeep/mirroring.git
-  only:
-    - branches
-  except:
-    - master
-
 build:
  image: docker:latest
  services:
@@ -61,3 +49,16 @@ script:
   - docker build -t $IMAGE_TAG .
   - docker images
   - docker push $IMAGE_TAG
+
+
+#mirror:
+#  stage: mirror
+#  rules:
+#    - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
+#  script:
+#    - echo "Mirroring procedure stated"
+#    - git push --mirror ssh://git@gitlab.com/ankamsandeep/mirroring.git
+#  only:
+#    - branches
+#  except:
+#    - master  
