@@ -29,9 +29,9 @@ pytest:
   before_script:
    - pip3 install pytest-html
    - pip3 install -r requirements.txt
-    - echo "Pytest started"
+   - echo "Pytest started"
   script:
-    -  pytest --html=pytest_reports/pytest-report.html --self-contained-html
+   -  pytest --html=pytest_reports/pytest-report.html --self-contained-html
   artifacts:
     when: always
     paths:
