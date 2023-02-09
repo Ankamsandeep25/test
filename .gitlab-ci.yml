@@ -4,7 +4,7 @@ stages:
   
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
-  IMAGE_VERSION: "1.1"
+
 
 lint_test:
   image: python:3.8.0-slim
@@ -46,10 +46,9 @@ build:
   before_script: 
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script: 
-    - docker build -t $IMAGE_TAG:$IMAGE_VERSION .
+    - docker build -t $IMAGE_TAG .
     - docker images
-    - docker push $IMAGE_TAG:$IMAGE_VERSION
-
+    - docker push $IMAGE_TAG
 
 #mirror:
 #  stage: mirror
