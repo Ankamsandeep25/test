@@ -2,12 +2,6 @@ import requests
 import json
 import datetime
 
-#42930219
-#glpat-9s3aPqFU1smmHxCzTWKh
-#https://gitlab.com/ankamsandeep/mynodeapp-cicd-project
-
-
-# Replace <GITLAB_HOST> with your GitLab instance hostname, <PROJECT_ID> with the ID of your project, and <PRIVATE_TOKEN> with your GitLab API private token.
 headers = { 'Private-Token': 'glpat-9s3aPqFU1smmHxCzTWKh' }
 url = f'https://gitlab.com/api/v4/projects/{42660645}/pipelines'
 
