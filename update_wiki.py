@@ -26,17 +26,17 @@ if pipelines:
     artifacts_files = latest_pipeline.get('artifacts_files', [])
     artifacts_links = [artifact.get('url', '') for artifact in artifacts_files]
 
-    content = '## Latest Pipeline and Artifacts Information\n\nPipeline ID: {}\n\nArtifa( _)cts Links:\n\n'.format(latest_pipeline['id'])
+    content = '## Latest Pipeline and Artifacts Information\n\nPipeline ID: {}\n\nArtifacts\n Links:\n\n'.format(latest_pipeline['id'])
     content += '\n'.join(['- {}'.format(link) for link in artifacts_links])
 
     url = f'https://gitlab.com/api/v4/projects/{42660645}/wikis'
 
     # Define the parameters for creating the wiki page
     data = {
-        'title': f'Pipeline and Artifacts Inform( _)ation - {datetime.datetime.now().strftime("%Y-%m-%d")}',
+        'title': f'Pipeline and Artifacts\n Information - {datetime.datetime.now().strftime("%Y-%m-%d")}',
         'content': content,
         'format': 'markdown',
-        'message': 'Create wiki page wi( _)th latest pipeline and artifacts information'
+        'message': 'Create wiki page with\n latest pipeline and artifacts information'
     }
 
     response = requests.post(url, headers=headers, data=data)
