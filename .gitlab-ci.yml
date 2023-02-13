@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - wiki
   
 variables:
   IMAGE_TAG: $CI_REGISTRY_IMAGE/employee-image:$CI_COMMIT_REF_SLUG
@@ -49,6 +50,18 @@ build:
     - docker build -t $IMAGE_TAG .
     - docker images
     - docker push $IMAGE_TAG
+
+update_to wiki:
+  stage: wiki
+  image: pyhton
+  needs:
+    - pytest
+  before_script:
+    - pip install requests
+  script:
+    - python3 update_wiki.py
+ 
+
 
 #mirror: 
 #  stage: mirror
