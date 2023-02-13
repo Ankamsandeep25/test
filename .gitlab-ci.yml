@@ -50,7 +50,7 @@ build:
     - docker images
     - docker push $IMAGE_TAG
 
-#mirror:
+#mirror: 
 #  stage: mirror
 #  rules:
 #    - if: '$CI_COMMIT_BRANCH == "main" && $DO_MIRROR == "1"' 
