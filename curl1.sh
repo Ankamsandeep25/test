@@ -1,34 +1,23 @@
 #!/bin/bash
 
 # Replace these with your GitLab instance URL and project ID
-GITLAB_URL=https://gitlab.com/ankamsandeep/employee-portal/
-PROJECT_ID=42660645
+#GITLAB_URL=https://gitlab.com/ankamsandeep/employee-portal/
+#PROJECT_ID=42660645
 
-# Replace this with your private token
-PRIVATE_TOKEN=glpat-9s3aPqFU1smmHxCzTWKh
+# Define the API endpoint and API token
+API_ENDPOINT="https://gitlab.com/ankamsandeep/employee-portal/"
+API_TOKEN="glpat-9s3aPqFU1smmHxCzTWKh"
 
-# Get the latest successful pipeline ID
-CURRENT_PIPELINE=$(curl --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "$GITLAB_URL/api/v4/projects/$PROJECT_ID/pipelines?status=success" | jq -r 'sort_by(.id)|.[-1].id')
+# Define the pipeline id, project id and stages for which artifacts need to be updated in the wiki
+PROJECT_ID=42930219
+PIPELINE_ID=$(curl --header "PRIVATE-TOKEN: $API_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ID/pipelines?status=running" | jq '.[0].id')
+STAGES="test build"
 
-# Get the latest successful job IDs for the "test" stage
-TEST_JOBS=$(curl --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "$GITLAB_URL/api/v4/projects/$PROJECT_ID/pipelines/$CURRENT_PIPELINE/jobs?stage=test&status=success" | jq -r 'sort_by(.id)|.[-1].id')
+# Loop through the stages and get the latest successful job for each stage
+for stage in $STAGES; do
+  JOB_ID=$(curl --header "PRIVATE-TOKEN: $API_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ID/pipelines/$PIPELINE_ID/jobs?stage=$stage&status=success" | jq '.[0].id')
+  ARTIFACT_LINK="https://gitlab.com/ankamsandeep/mynodeapp-cicd-project/-/jobs/$JOB_ID/artifacts/browse"
 
-# Get the latest successful job IDs for the "build" stage
-BUILD_JOBS=$(curl --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "$GITLAB_URL/api/v4/projects/$PROJECT_ID/pipelines/$CURRENT_PIPELINE/jobs?stage=build&status=success" | jq -r 'sort_by(.id)|.[-1].id')
-
-# Generate the links to the artifacts of the "test" stage jobs
-TEST_ARTIFACTS=""
-for TEST_JOB_ID in $TEST_JOBS; do
-  ARTIFACT_URL="$GITLAB_URL/$PROJECT_ID/-/jobs/$TEST_JOB_ID/artifacts/browse"
-  TEST_ARTIFACTS="$TEST_ARTIFACTS\n- [Test Artifacts for Job $TEST_JOB_ID]($ARTIFACT_URL)"
+  # Update the wiki page with the latest artifact link for the current stage
+  curl --request PUT --header "PRIVATE-TOKEN: $API_TOKEN" --data "content=$(curl --header "PRIVATE-TOKEN: $API_TOKEN" "$API_ENDPOINT" | jq '.content' -r)\n\nArtifacts for $stage stage: [Artifacts]($ARTIFACT_LINK) updated on $(date +'%Y-%m-%d %H:%M:%S')" "$API_ENDPOINT"
 done
-
-# Generate the links to the artifacts of the "build" stage jobs
-BUILD_ARTIFACTS=""
-for BUILD_JOB_ID in $BUILD_JOBS; do
-  ARTIFACT_URL="$GITLAB_URL/$PROJECT_ID/-/jobs/$BUILD_JOB_ID/artifacts/browse"
-  BUILD_ARTIFACTS="$BUILD_ARTIFACTS\n- [Build Artifacts for Job $BUILD_JOB_ID]($ARTIFACT_URL)"
-done
-
-# Update the wiki home page with the links to the artifacts
-curl --request PUT --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" --data "content=Latest Artifacts:\n$TEST_ARTIFACTS\n$BUILD_ARTIFACTS" "$GITLAB_URL/api/v4/projects/$PROJECT_ID/wikis/home"
