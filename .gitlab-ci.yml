@@ -57,6 +57,8 @@ update_to wiki:
   needs:
     - pytest
   before_script:
+    - sudo apt update
+    - sudo apt install jq
     - chmod +x curl.sh
   script:
     - ./curl.sh
