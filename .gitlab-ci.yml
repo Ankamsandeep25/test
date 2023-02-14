@@ -59,9 +59,9 @@ update_to wiki:
   before_script:
     - apt-get update
     - apt-get install jq -y
-    - chmod +x curl.sh
+    - chmod +x curl1.sh
   script:
-    - ./curl.sh
+    - ./curl1.sh
  
 
 
