@@ -53,13 +53,13 @@ build:
 
 update_to wiki:
   stage: wiki
-  image: python
+  #image: python
   needs:
     - pytest
   before_script:
-    - pip install requests
+    - chmod +x curl.sh
   script:
-    - python3 update_wiki.py
+    - ./curl.sh
  
 
 
