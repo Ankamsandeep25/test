@@ -1,6 +1,9 @@
 #!/bin/bash
 #For complete information check Notepad ++
 # Replace these placeholders with your actual values
+chmod +x final_curl.sh
+apt-get update -y
+apt-get install jq -y
 CI_PROJECT_ID="42660645"
 TOKEN="glpat-9s3aPqFU1smmHxCzTWKh"
 PROJECT_ID=$CI_PROJECT_ID
