@@ -1,6 +1,8 @@
 #!/bin/bash
 #For complete information check Notepad ++
 # Replace these placeholders with your actual values
+CI_PROJECT_ID="42660645"
+TOKEN="glpat-9s3aPqFU1smmHxCzTWKh"
 PROJECT_ID=$CI_PROJECT_ID
 PRIVATE_TOKEN=$TOKEN
 
