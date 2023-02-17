@@ -51,17 +51,18 @@ build:
     - docker images
     - docker push $IMAGE_TAG
 
-update_to wiki:
-  stage: wiki
+#Include the webhook to trigger the wiki update
+#update_to wiki:
+#  stage: wiki
  # tags:
  #   - ec2
  #   - shell
-  before_script:
-    - chmod +x final_curl.sh
-    - apt-get update 
-    - apt-get install jq -y
-  script:
-    - ./final_curl.sh
+#  before_script:
+#    - chmod +x final_curl.sh
+#    - apt-get update 
+#    - apt-get install jq -y
+#  script:
+#    - ./final_curl.sh
  
 
 #mirror: 
