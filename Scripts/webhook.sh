@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # GitLab API token
-TOKEN="glpat-9s3aPqFU1smmHxCzTWKh"
+TOKEN="glpat-91-mWEQNo7pUjKpzb-GL"
 
 # GitLab project ID
 PROJECT_ID="42660645"
