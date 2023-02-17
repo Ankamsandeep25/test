@@ -52,18 +52,18 @@ build:
     - docker push $IMAGE_TAG
 
 #Include the webhook to trigger the wiki update
-update_to wiki:
-  stage: wiki
+#update_to wiki:
+#  stage: wiki
  # tags:
  #   - ec2
  #   - shell
-  before_script:
-    - chmod +x ./Scripts/webhook.sh
-    - apt-get update 
-    - apt-get install jq -y
-  script:
+#  before_script:
+#    - chmod +x ./Scripts/webhook.sh
+#    - apt-get update 
+#    - apt-get install jq -y
+#  script:
 #    - ./final_curl.sh
-    - echo "Running Webhook"
+#    - echo "Running Webhook"
  
 
 #mirror: 
