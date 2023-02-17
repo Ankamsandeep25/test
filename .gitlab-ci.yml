@@ -58,8 +58,8 @@ update_to wiki:
  #   - shell
   before_script:
     - chmod +x final_curl.sh
-    - apt-get update
-    - apt-get install jq  
+    - apt-get update 
+    - apt-get install jq -y
   script:
     - ./final_curl.sh
  
